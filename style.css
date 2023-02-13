@@ -1,0 +1,60 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    background: url(images/pattern.png);
+    background-size: 200%;   
+}
+header {
+    position: relative;
+    background-color: rgb(19, 10, 17);
+    border: 5px darksalmon ;
+    padding: 80px;
+    color: antiquewhite;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.numbers {
+    width: 50%;
+    height: 50vh;
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+.operators {
+    height: 50vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+button {
+    padding: 20px;
+    width: 33%;
+    background-color: rgb(19, 10, 17);
+    color: antiquewhite;
+}
+.big {
+    width: 99%;
+}
+
+.inputField {
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 5px;
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+}
+.calculator {
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    background: rgb(224, 224, 221);
+    width: 80%;
+    margin: 0 auto;
+}
