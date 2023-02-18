@@ -2,7 +2,6 @@
 let firstNumber = null;
 let firstOperator = null;
 let seccondNumber = null;
-let seccondOperator = null;
 let displayValue = 0;
 
 const display = document.querySelector('.display');
@@ -10,8 +9,12 @@ const buttons = Array.from(document.querySelectorAll('button'));
 
 display.textContent = displayValue;
 window.addEventListener('keydown', e => {
-            let button = document.querySelector(`button[data-key="${e.keyCode}"]`)
+            let button = document.querySelector(`button[data-key="${e.key}"]`);
+            // if (e.key !== button.data) {
+                
+            // }
             button.classList.add('active');
+            button.click();
         }
 );
 buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
@@ -31,6 +34,18 @@ numbers.forEach(number => {
         }
         updateDisplay();
         return;
+    })
+});
+const operators = document.querySelectorAll('.operator');
+operators.forEach(operator => {
+    operator.addEventListener('click', e => {
+        if (firstNumber === null) {
+            return;
+        } if (seccondNumber !== null) {
+            compute(firstOperator, e.target.textContent);
+        }
+        if(e.target.textContent !== '=') firstOperator = e.target.textContent;
+        updateDisplay();
     })
 });
 
@@ -57,17 +72,40 @@ function updateDisplay () {
         displayValue = `${firstNumber} ${firstOperator} ${seccondNumber}`;
     }
     display.textContent = displayValue;
+};
+function compute (operator, newOperator) {
+    let values = [parseInt(firstNumber), parseInt(seccondNumber)];
+    if (operator === '+') {
+        firstNumber = addiction(values);
+    } else if (operator === '-') {
+        firstNumber = substraction(values);
+    } else if (operator === 'x') {
+        firstNumber = multiplication(values);
+    } else if (operator === '/') {
+        firstNumber = division(values);
+    }
+    //function about adding new history addiction will be here
+    
+    if (newOperator === '=') {
+        // console.log(newOperator);
+        firstOperator = null;
+    } else {
+        firstOperator = newOperator;
+        console.log(newOperator);
+    };
+    seccondNumber = null;
+    updateDisplay();
 }
 
-function addiction (num1, num2) {
-    field.textContent = num1 + num2;
+function addiction (numbersArr) {
+    return numbersArr[0] + numbersArr[1];
 };
-function substraction (num1, num2) {
-    field.textContent = num1 - num2;
+function substraction (numbersArr) {
+    return numbersArr[0] - numbersArr[1];
 };
-function multiplication (num1, num2) {
-    field.textContent = num1 * num2;
+function multiplication (numbersArr) {
+    return numbersArr[0] * numbersArr[1];
 };
-function division (num1, num2) {
-    field.textContent = num1 / num2;
+function division (numbersArr) {
+    return numbersArr[0] / numbersArr[1];
 };
