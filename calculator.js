@@ -3,54 +3,98 @@ let firstNumber = null;
 let firstOperator = null;
 let seccondNumber = null;
 let displayValue = 0;
+let result = null;
+const errorMsg = 'You cannot divide by Zero!';
+const enabledKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', 'Enter', 'Delete', 'Backspace', '.'];
 
 const display = document.querySelector('.display');
 const buttons = Array.from(document.querySelectorAll('button'));
+const history = document.querySelector('.history');
+
+const numbers = document.querySelectorAll('.number');
+const operators = document.querySelectorAll('.operator');
 
 display.textContent = displayValue;
+
+// LISTEN FOR PRESSING KEYS ON KEYBOARD, BUT ONLY WHICH FUNCTIONS WITH CALCULATOR
 window.addEventListener('keydown', e => {
-            let button = document.querySelector(`button[data-key="${e.key}"]`);
-            // if (e.key !== button.data) {
-                
-            // }
-            button.classList.add('active');
-            button.click();
-        }
-);
+    let button = document.querySelector(`button[data-key="${e.key}"]`);
+    if (!enabledKeys.includes(e.key)) {
+        return;
+    }
+    button.classList.add('active');
+    button.click();
+});
+
+// CSS LISTENER FOR ANIMATION END
 buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
 
 function removeTransition(e) {
     if (e.propertyName !== 'transform') return;
     e.target.classList.remove('active');
   }
+// NUMBERS LISTENER FOR A CLICK
 
-const numbers = document.querySelectorAll('.number');
 numbers.forEach(number => {
-    number.addEventListener('click', e => {
+    number.addEventListener('click', () => {
         if (seccondNumber === null && firstOperator === null) {
-            updateFirstNumber(e.target.textContent);
+            // If the input is '.' > there could be only one period in float number!
+            if (number.textContent === '.' && firstNumber !== null && firstNumber.toString().includes(number.textContent)) { 
+                return;
+            }
+            updateFirstNumber(number.textContent);
         } else if (firstOperator !== null) {
-            updateSeccondNumber(e.target.textContent);
+            // If the input is '.' > there could be only one period in float number!
+            if(number.textContent === '.' && seccondNumber !== null && seccondNumber.includes(number.textContent)) {
+                return;
+            }
+            updateSeccondNumber(number.textContent);
         }
         updateDisplay();
-        return;
     })
 });
-const operators = document.querySelectorAll('.operator');
+// OPERATORS LISTENER FOR A CLICK
+
 operators.forEach(operator => {
-    operator.addEventListener('click', e => {
+    operator.addEventListener('click', () => {
+        operator.classList.add('active');
+        if (operator.classList.contains('reset')) {
+            reset();
+            return;
+        } else if (operator.classList.contains('del')) {
+            removeNumber();
+            return;
+        }
         if (firstNumber === null) {
             return;
-        } if (seccondNumber !== null) {
-            compute(firstOperator, e.target.textContent);
+        } else if (seccondNumber !== null) {
+            makeHistoryLog(firstNumber, firstOperator, seccondNumber, compute(firstOperator), operator.textContent);
         }
-        if(e.target.textContent !== '=') firstOperator = e.target.textContent;
+        if(operator.textContent !== '=') firstOperator = operator.textContent;
         updateDisplay();
     })
 });
 
+// HELPING FUNCTIONS TO MAKE THE CODE CLEANER
+function reset () {
+    firstNumber = 0;
+    seccondNumber = null;
+    firstOperator = null;
+    displayValue = 0;
+    updateDisplay();
+};
+
+function removeNumber () {
+    if (!seccondNumber) {
+        firstNumber = firstNumber.slice(0,firstNumber.length-1);
+    } else {
+        seccondNumber = seccondNumber.slice(0,seccondNumber.length-1);
+    }
+    updateDisplay();
+};
+
 function updateFirstNumber (withNumber) {
-    if (firstNumber === null) {
+    if (firstNumber === null || firstNumber === errorMsg) {
         firstNumber  = withNumber;
     } else {
         firstNumber += withNumber;
@@ -73,39 +117,45 @@ function updateDisplay () {
     }
     display.textContent = displayValue;
 };
-function compute (operator, newOperator) {
-    let values = [parseInt(firstNumber), parseInt(seccondNumber)];
+function compute (operator) {
+    let values = [parseFloat(firstNumber), parseFloat(seccondNumber)];
     if (operator === '+') {
-        firstNumber = addiction(values);
+        return add(values);
     } else if (operator === '-') {
-        firstNumber = substraction(values);
+        return substract(values);
     } else if (operator === 'x') {
-        firstNumber = multiplication(values);
+        return multiply(values);
     } else if (operator === '/') {
-        firstNumber = division(values);
-    }
-    //function about adding new history addiction will be here
-    
+        return divide(values);
+    }};
+function makeHistoryLog(num1, operator, num2, result, newOperator) {
+    const entryLog = document.createElement('p');
+    entryLog.textContent = `${num1} ${operator} ${num2} = ${result}`;
+    history.appendChild(entryLog);
+
+    firstNumber = result;
     if (newOperator === '=') {
-        // console.log(newOperator);
         firstOperator = null;
     } else {
         firstOperator = newOperator;
-        console.log(newOperator);
     };
     seccondNumber = null;
     updateDisplay();
 }
 
-function addiction (numbersArr) {
+function add (numbersArr) {
     return numbersArr[0] + numbersArr[1];
 };
-function substraction (numbersArr) {
+function substract (numbersArr) {
     return numbersArr[0] - numbersArr[1];
 };
-function multiplication (numbersArr) {
+function multiply (numbersArr) {
     return numbersArr[0] * numbersArr[1];
 };
-function division (numbersArr) {
-    return numbersArr[0] / numbersArr[1];
+function divide (numbersArr) {
+    if (numbersArr[0] === 0 || numbersArr[1] === 0) {
+        return errorMsg;
+    }else {
+        return numbersArr[0] / numbersArr[1];
+    }
 };

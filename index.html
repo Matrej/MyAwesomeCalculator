@@ -11,20 +11,14 @@
 <body>
     <header>
         <div class="container">
-            <div>
-                <h1>My awesome and cute calculator</h1>
-            </div>
-            <div>
-                <p>The odin Project final exercise for javascript fundamental course</p>
-            </div>
-        </div>
+            <h1>My awesome and functional calculator</h1>
     </header>
     <div class="container">
         <main class="calculator">
             <div class="buttons">
                 <div class="display"></div>
-                <button class="reset big" data-key="Delete">AC</button>
-                <button class="del" data-key="Backspace">DEL</button>
+                <button class="reset operator big" data-key="Delete">AC</button>
+                <button class="del operator" data-key="Backspace">DEL</button>
                 <button class="operator divide" data-key="/">/</button>
                 <button class="number" data-key="7">7</button>
                 <button class="number" data-key="8">8</button>
@@ -39,9 +33,15 @@
                 <button class="number" data-key="3">3</button>
                 <button class="operator add" data-key="+">+</button>
                 <button class="number big" data-key="0">0</button>
-                <button class="operator equals big" data-key="Enter">=</button>
+                <button class="number dot" data-key=".">.</button>
+                <button class="operator equals" data-key="Enter">=</button>
             </div>
         </main>
+        <ASide class="history">
+            <div>HISTORY</div>
+
+        </ASide>
     </div>
+    <footer>made by Matrej 2023</footer>
 </body>
 </html>

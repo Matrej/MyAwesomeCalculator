@@ -1,30 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Share+Tech+Mono&display=swap');
+:root {
+    --calc_bgColor: rgb(21, 27, 27);
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 body {
     margin: 0;
-    background: url(images/pattern.png);
+    background: black;
     background-size: 200%;   
 }
 header {
     position: relative;
-    background-color: rgb(19, 10, 17);
+    background-color: var(--calc_bgColor);
     border: 5px darksalmon ;
-    padding: 80px;
+    padding: 20px;
     color: antiquewhite;
 }
 
 .container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+ 
 }
 .buttons{
     display: grid;
     grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(5, 100px);
+    grid-template-rows: repeat(6, 100px);
     grid-gap: 5px;
 }
 
@@ -33,29 +40,64 @@ header {
 }
 .display {
     grid-area: span 1 / span 4;
-    background-color: white;
-    border: 2px solid gray;
+    background-color: var(--calc_bgColor);
+    border: 2px solid rgba(0, 255, 255, 0.35);
+    color: white;
     text-align: right;
     font-size: 2rem;
     padding: 15px;
 }
 
-.inputField {
-    background-color: white;
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 20px auto;
-    padding: 20px;
-    font-size: 2rem;
-}
 .active {
-    border: 2px limegreen solid;
+    border: 2px aqua solid;
     transform: scale(1.05);
-    transition: 0.08s;
+    transition: 0.18s;
 }
 .calculator {
-    background-color: antiquewhite;
+    background-color: black;
     padding: 5px;
-    border: 2px solid gray;
+    border: 5px solid var(--calc_bgColor);
+    border-radius: 5px 0px 0px 5px;
     margin-top: 20px;
+}
+button {
+    background: var(--calc_bgColor);
+    color: antiquewhite;
+    border: 0;
+}
+
+.operator {
+    color: aqua;
+    background: rgb(32, 41, 41);
+}
+.history {
+    color: darkslategrey;
+    width: 15%;
+    border: 5px solid var(--calc_bgColor);
+    border-left: 0px;
+    border-radius: 0px 5px 5px 0px;
+    background: black;
+    margin: 20px 0 0 0;
+
+}
+.history>p {
+    padding: 8px;
+    border-bottom: 2px var(--calc_bgColor) dashed;
+}
+.history>div {
+    width: 100%;
+    background: var(--calc_bgColor);
+    padding: 5px;
+    color: white;
+    text-align: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: rgb(127, 146, 146);
+    padding: 20px;
+    background: var(--calc_bgColor);
 }
