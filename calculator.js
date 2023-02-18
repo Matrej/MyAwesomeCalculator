@@ -37,6 +37,7 @@ function removeTransition(e) {
 
 numbers.forEach(number => {
     number.addEventListener('click', () => {
+        number.classList.add('active');
         if (seccondNumber === null && firstOperator === null) {
             // If the input is '.' > there could be only one period in float number!
             if (number.textContent === '.' && firstNumber !== null && firstNumber.toString().includes(number.textContent)) { 
