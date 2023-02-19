@@ -8,5 +8,6 @@ What features does this calculator has?
                         - CALCULATION of add, substract, multiply and division, even with float numbers
                         - reset and delete function
                         - show history of calculated results
+                        - fancy self-made background
 
 Thanks for checking my entry for this exercise!

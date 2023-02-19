@@ -38,15 +38,15 @@ function removeTransition(e) {
 numbers.forEach(number => {
     number.addEventListener('click', () => {
         number.classList.add('active');
-        if (seccondNumber === null && firstOperator === null) {
+        if (!seccondNumber && !firstOperator) {
             // If the input is '.' > there could be only one period in float number!
-            if (number.textContent === '.' && firstNumber !== null && firstNumber.toString().includes(number.textContent)) { 
+            if (number.textContent === '.' && firstNumber && firstNumber.toString().includes(number.textContent)) { 
                 return;
             }
             updateFirstNumber(number.textContent);
-        } else if (firstOperator !== null) {
+        } else if (firstOperator) {
             // If the input is '.' > there could be only one period in float number!
-            if(number.textContent === '.' && seccondNumber !== null && seccondNumber.includes(number.textContent)) {
+            if(number.textContent === '.' && seccondNumber && seccondNumber.includes(number.textContent)) {
                 return;
             }
             updateSeccondNumber(number.textContent);
@@ -68,7 +68,7 @@ operators.forEach(operator => {
         }
         if (firstNumber === null) {
             return;
-        } else if (seccondNumber !== null) {
+        } else if (seccondNumber) {
             makeHistoryLog(firstNumber, firstOperator, seccondNumber, compute(firstOperator), operator.textContent);
         }
         if(operator.textContent !== '=') firstOperator = operator.textContent;
@@ -95,23 +95,23 @@ function removeNumber () {
 };
 
 function updateFirstNumber (withNumber) {
-    if (firstNumber === null || firstNumber === errorMsg) {
+    if (!firstNumber || firstNumber === errorMsg) {
         firstNumber  = withNumber;
     } else {
         firstNumber += withNumber;
     }
 };
 function updateSeccondNumber (withNumber) {
-    if (seccondNumber === null) {
+    if (!seccondNumber) {
         seccondNumber  = withNumber;
     } else {
         seccondNumber += withNumber;
     }
 };
 function updateDisplay () {
-    if (seccondNumber === null && firstOperator === null) {
+    if (!seccondNumber && !firstOperator) {
         displayValue = `${firstNumber}`;
-    } else if (seccondNumber === null) {
+    } else if (!seccondNumber) {
         displayValue = `${firstNumber} ${firstOperator}`
     } else {
         displayValue = `${firstNumber} ${firstOperator} ${seccondNumber}`;
@@ -133,7 +133,9 @@ function makeHistoryLog(num1, operator, num2, result, newOperator) {
     const entryLog = document.createElement('p');
     entryLog.textContent = `${num1} ${operator} ${num2} = ${result}`;
     history.appendChild(entryLog);
-
+    if (history.childNodes.length > 13) {
+        history.removeChild(history.childNodes[3]);
+    }
     firstNumber = result;
     if (newOperator === '=') {
         firstOperator = null;
@@ -157,6 +159,6 @@ function divide (numbersArr) {
     if (numbersArr[0] === 0 || numbersArr[1] === 0) {
         return errorMsg;
     }else {
-        return numbersArr[0] / numbersArr[1];
+        return (numbersArr[0] / numbersArr[1]).toFixed(2);
     }
 };
